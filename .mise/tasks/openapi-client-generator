@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Generate OpenAPI client library"
+#MISE depends=["sync"]
+rm -rf ./src/checkmk_rest_python/*
+touch ./src/checkmk_rest_python/__init__.py
+uv run openapi-python-client generate --path ./openapi-swagger-ui.yaml --output-path ./src/checkmk_rest_python --overwrite --meta none

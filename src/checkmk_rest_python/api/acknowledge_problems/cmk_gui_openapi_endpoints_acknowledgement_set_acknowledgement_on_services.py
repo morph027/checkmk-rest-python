@@ -1,0 +1,278 @@
+from http import HTTPStatus
+from typing import Any, cast
+
+import httpx
+
+from ... import errors
+from ...client import AuthenticatedClient, Client
+from ...models.acknowledge_service_group_problem import AcknowledgeServiceGroupProblem
+from ...models.acknowledge_service_query_problem import AcknowledgeServiceQueryProblem
+from ...models.acknowledge_specific_service_problem import (
+    AcknowledgeSpecificServiceProblem,
+)
+from ...models.api_400_default_error import Api400DefaultError
+from ...models.api_406_default_error import Api406DefaultError
+from ...models.api_415_default_error import Api415DefaultError
+from ...models.api_422_custom_error_1 import Api422CustomError1
+from ...types import Response
+
+
+def _get_kwargs(
+    *,
+    body: AcknowledgeServiceGroupProblem
+    | AcknowledgeServiceQueryProblem
+    | AcknowledgeSpecificServiceProblem,
+    content_type: str,
+) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+    headers["Content-Type"] = content_type
+
+    _kwargs: dict[str, Any] = {
+        "method": "post",
+        "url": "/domain-types/acknowledge/collections/service",
+    }
+
+    if isinstance(body, AcknowledgeSpecificServiceProblem):
+        _kwargs["json"] = body.to_dict()
+    elif isinstance(body, AcknowledgeServiceGroupProblem):
+        _kwargs["json"] = body.to_dict()
+    else:
+        _kwargs["json"] = body.to_dict()
+
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
+
+
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> (
+    Any
+    | Api400DefaultError
+    | Api406DefaultError
+    | Api415DefaultError
+    | Api422CustomError1
+    | None
+):
+    if response.status_code == 204:
+        response_204 = cast(Any, None)
+        return response_204
+
+    if response.status_code == 400:
+        response_400 = Api400DefaultError.from_dict(response.json())
+
+        return response_400
+
+    if response.status_code == 406:
+        response_406 = Api406DefaultError.from_dict(response.json())
+
+        return response_406
+
+    if response.status_code == 415:
+        response_415 = Api415DefaultError.from_dict(response.json())
+
+        return response_415
+
+    if response.status_code == 422:
+        response_422 = Api422CustomError1.from_dict(response.json())
+
+        return response_422
+
+    if client.raise_on_unexpected_status:
+        raise errors.UnexpectedStatus(response.status_code, response.content)
+    else:
+        return None
+
+
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[
+    Any
+    | Api400DefaultError
+    | Api406DefaultError
+    | Api415DefaultError
+    | Api422CustomError1
+]:
+    return Response(
+        status_code=HTTPStatus(response.status_code),
+        content=response.content,
+        headers=response.headers,
+        parsed=_parse_response(client=client, response=response),
+    )
+
+
+def sync_detailed(
+    *,
+    client: AuthenticatedClient | Client,
+    body: AcknowledgeServiceGroupProblem
+    | AcknowledgeServiceQueryProblem
+    | AcknowledgeSpecificServiceProblem,
+    content_type: str,
+) -> Response[
+    Any
+    | Api400DefaultError
+    | Api406DefaultError
+    | Api415DefaultError
+    | Api422CustomError1
+]:
+    """Set acknowledgement on related services
+
+
+
+    This endpoint requires the following permissions:
+     * `action.acknowledge`: Acknowledge host and service problems and remove acknowledgements
+
+    Args:
+        content_type (str):  Example: application/json.
+        body (AcknowledgeServiceGroupProblem | AcknowledgeServiceQueryProblem |
+            AcknowledgeSpecificServiceProblem):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Any | Api400DefaultError | Api406DefaultError | Api415DefaultError | Api422CustomError1]
+    """
+
+    kwargs = _get_kwargs(
+        body=body,
+        content_type=content_type,
+    )
+
+    response = client.get_httpx_client().request(
+        **kwargs,
+    )
+
+    return _build_response(client=client, response=response)
+
+
+def sync(
+    *,
+    client: AuthenticatedClient | Client,
+    body: AcknowledgeServiceGroupProblem
+    | AcknowledgeServiceQueryProblem
+    | AcknowledgeSpecificServiceProblem,
+    content_type: str,
+) -> (
+    Any
+    | Api400DefaultError
+    | Api406DefaultError
+    | Api415DefaultError
+    | Api422CustomError1
+    | None
+):
+    """Set acknowledgement on related services
+
+
+
+    This endpoint requires the following permissions:
+     * `action.acknowledge`: Acknowledge host and service problems and remove acknowledgements
+
+    Args:
+        content_type (str):  Example: application/json.
+        body (AcknowledgeServiceGroupProblem | AcknowledgeServiceQueryProblem |
+            AcknowledgeSpecificServiceProblem):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Any | Api400DefaultError | Api406DefaultError | Api415DefaultError | Api422CustomError1
+    """
+
+    return sync_detailed(
+        client=client,
+        body=body,
+        content_type=content_type,
+    ).parsed
+
+
+async def asyncio_detailed(
+    *,
+    client: AuthenticatedClient | Client,
+    body: AcknowledgeServiceGroupProblem
+    | AcknowledgeServiceQueryProblem
+    | AcknowledgeSpecificServiceProblem,
+    content_type: str,
+) -> Response[
+    Any
+    | Api400DefaultError
+    | Api406DefaultError
+    | Api415DefaultError
+    | Api422CustomError1
+]:
+    """Set acknowledgement on related services
+
+
+
+    This endpoint requires the following permissions:
+     * `action.acknowledge`: Acknowledge host and service problems and remove acknowledgements
+
+    Args:
+        content_type (str):  Example: application/json.
+        body (AcknowledgeServiceGroupProblem | AcknowledgeServiceQueryProblem |
+            AcknowledgeSpecificServiceProblem):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Response[Any | Api400DefaultError | Api406DefaultError | Api415DefaultError | Api422CustomError1]
+    """
+
+    kwargs = _get_kwargs(
+        body=body,
+        content_type=content_type,
+    )
+
+    response = await client.get_async_httpx_client().request(**kwargs)
+
+    return _build_response(client=client, response=response)
+
+
+async def asyncio(
+    *,
+    client: AuthenticatedClient | Client,
+    body: AcknowledgeServiceGroupProblem
+    | AcknowledgeServiceQueryProblem
+    | AcknowledgeSpecificServiceProblem,
+    content_type: str,
+) -> (
+    Any
+    | Api400DefaultError
+    | Api406DefaultError
+    | Api415DefaultError
+    | Api422CustomError1
+    | None
+):
+    """Set acknowledgement on related services
+
+
+
+    This endpoint requires the following permissions:
+     * `action.acknowledge`: Acknowledge host and service problems and remove acknowledgements
+
+    Args:
+        content_type (str):  Example: application/json.
+        body (AcknowledgeServiceGroupProblem | AcknowledgeServiceQueryProblem |
+            AcknowledgeSpecificServiceProblem):
+
+    Raises:
+        errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
+        httpx.TimeoutException: If the request takes longer than Client.timeout.
+
+    Returns:
+        Any | Api400DefaultError | Api406DefaultError | Api415DefaultError | Api422CustomError1
+    """
+
+    return (
+        await asyncio_detailed(
+            client=client,
+            body=body,
+            content_type=content_type,
+        )
+    ).parsed

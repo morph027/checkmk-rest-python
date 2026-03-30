@@ -1,0 +1,22 @@
+[project]
+name = "checkmk-rest-python"
+version = "2.4.0+24"
+description = "Checkmk REST api client libraries for python"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/morph027/checkmk-rest-python"
+
+[build-system]
+requires = ["uv_build>=0.10.6,<0.11.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+build = [
+    "openapi-python-client>=0.28.3",
+]
+
+[tool.uv]
+default-groups = ["build"]
