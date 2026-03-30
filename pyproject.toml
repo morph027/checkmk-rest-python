@@ -1,6 +1,6 @@
 [project]
 name = "checkmk-rest-python"
-version = "v2.4.0.24.0"
+version = "v2.4.0.24.1"
 description = "Checkmk REST api client libraries for python"
 readme = "README.md"
 requires-python = ">=3.10"
